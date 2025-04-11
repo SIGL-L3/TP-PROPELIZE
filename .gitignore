@@ -1,3 +1,28 @@
+# Ignorer les dossiers de migrations des applications
+**/migrations/*
+!**/migrations/__init__.py  # Garde le fichier __init__.py nécessaire pour les packages
+
+# Fichiers générés par Django
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+*.db
+
+# Fichiers générés par l'IDE (PyCharm, VSCode)
+.vscode/
+.idea/
+*.iml
+
+# Environnements virtuels
 venv/
 env/
-.idea/
+.env/
+
+# Cache
+*.pyc
+__pycache__/
+
+# Fichiers spécifiques à Django
+*.log
