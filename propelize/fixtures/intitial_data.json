@@ -1,0 +1,46 @@
+[
+    {
+        "model": "propelize.vehicule",
+        "pk": 1,
+        "fields": {
+            "registration_number": "ABC123",
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2020,
+            "rentalprice": "150.000"
+        }
+    },
+    {
+        "model": "propelize.vehicule",
+        "pk": 2,
+        "fields": {
+            "registration_number": "XYZ456",
+            "make": "Honda",
+            "model": "Civic",
+            "year": 2019,
+            "rentalprice": "120.000"
+        }
+    },
+    {
+        "model": "propelize.vehicule",
+        "pk": 3,
+        "fields": {
+            "registration_number": "LMN789",
+            "make": "Ford",
+            "model": "Focus",
+            "year": 2021,
+            "rentalprice": "180.000"
+        }
+    },
+    {
+        "model": "propelize.vehicule",
+        "pk": 4,
+        "fields": {
+            "registration_number": "PQR321",
+            "make": "BMW",
+            "model": "320i",
+            "year": 2022,
+            "rentalprice": "250.000"
+        }
+    }
+]
