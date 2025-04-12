@@ -1,7 +1,11 @@
+# tests.py
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from .models import Vehicule
+import os
+import json
+from django.conf import settings
 
 class VehiculeCreateTests(APITestCase):
     """Tests pour l'endpoint de création de véhicule"""
@@ -66,6 +70,40 @@ class VehiculeCreateTests(APITestCase):
 class FixtureLoadTests(APITestCase):
     """Tests pour le chargement des fixtures"""
     
+    def setUp(self):
+        # Crée un fichier fixture temporaire pour les tests
+        self.fixture_data = [
+            {
+                "model": "propelize.vehicule",
+                "pk": 1,
+                "fields": {
+                    "registration_number": "ABC123",
+                    "make": "Toyota",
+                    "model": "Corolla",
+                    "year": 2020,
+                    "rentalprice": "150.000"
+                }
+            },
+            {
+                "model": "propelize.vehicule",
+                "pk": 2,
+                "fields": {
+                    "registration_number": "XYZ456",
+                    "make": "Honda",
+                    "model": "Civic",
+                    "year": 2019,
+                    "rentalprice": "120.000"
+                }
+            }
+        ]
+        
+        # Assurez-vous que le répertoire fixtures existe
+        os.makedirs(os.path.join(settings.BASE_DIR, 'fixtures'), exist_ok=True)
+        
+        # Écrit les données dans le fichier fixture
+        with open(os.path.join(settings.BASE_DIR, 'fixtures', 'test_vehicles.json'), 'w') as f:
+            json.dump(self.fixture_data, f)
+    
     def test_load_fixtures_endpoint(self):
         """Test de l'endpoint de chargement des fixtures"""
         url = reverse('load-fixtures')
@@ -73,7 +111,7 @@ class FixtureLoadTests(APITestCase):
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # Vérifie que les véhicules ont été créés
-        self.assertTrue(Vehicule.objects.count() > 0)
+        self.assertEqual(Vehicule.objects.count(), 2)
         
         # Vérifie les données spécifiques
         vehicule1 = Vehicule.objects.get(registration_number="ABC123")
@@ -83,3 +121,11 @@ class FixtureLoadTests(APITestCase):
         vehicule2 = Vehicule.objects.get(registration_number="XYZ456")
         self.assertEqual(vehicule2.make, "Honda")
         self.assertEqual(vehicule2.model, "Civic")
+    
+    def tearDown(self):
+        """Nettoie après chaque test"""
+        # Supprime le fichier fixture temporaire
+        try:
+            os.remove(os.path.join(settings.BASE_DIR, 'fixtures', 'test_vehicles.json'))
+        except:
+            pass

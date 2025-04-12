@@ -15,12 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+
 from vehicule.views import VehiculeCreateAPIView, load_fixtures
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('api/', include('propelize.urls')),
     path('vehicules/', VehiculeCreateAPIView.as_view(), name='vehicule-create'),
     path('load-fixtures/', load_fixtures, name='load-fixtures'),
 ]
