@@ -27,6 +27,7 @@ python manage.py runserver
 Accédez à l'application dans votre navigateur :
 - Interface principale : http://127.0.0.1:8000
 - API des véhicules : http://127.0.0.1:8000/vehicules/
+![alt text](<Capture d’écran du 2025-04-15 12-29-07.png>)
 
 ## Utilisation de l'API des véhicules
 
@@ -34,7 +35,7 @@ Accédez à l'application dans votre navigateur :
 2. Pour créer un nouveau véhicule :
    - Remplissez le formulaire avec les informations requises
    - Cliquez sur le bouton "POST"
-
+![alt text](image-2.png)
 ## Lancement des tests
 
 Pour exécuter tous les tests :
