@@ -3,7 +3,7 @@
 
 
 # LANCER L'APPLICATION
-¸¸¸shell
+¸¸¸
 git clone https://github.com/SIGL-L3/TP_PROPELIZE_GROUPE_8.git
 
 cd TP_PROPELIZE_GROUPE_8/propelize
