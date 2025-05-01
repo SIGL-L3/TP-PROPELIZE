@@ -1,62 +1,30 @@
-# vehicules/views.py
-
 from django.http import JsonResponse
 from django.views import View
 from .models import Vehicule
 
-# Cette vue permet de rechercher un véhicule à partir de son numéro d'immatriculation.
+# Recherche par immatriculation (exact match)
 class SearchByRegistrationView(View):
     def get(self, request):
-        # Je récupère le paramètre 'registration_number' passé dans l'URL
-        reg_number = request.GET.get('registration_number')
+        registration_number = request.GET.get('registration_number')
+        if not registration_number:
+            return JsonResponse({'error': 'registration_number parameter is required'}, status=400)
+        
+        vehicules = Vehicule.objects.filter(registration_number=registration_number)
+        data = list(vehicules.values())
+        return JsonResponse(data, safe=False)
 
-        if reg_number:
-            try:
-                # Je recherche dans la base un véhicule avec ce numéro
-                vehicule = Vehicule.objects.get(registration_number=reg_number)
-                # Je prépare les données à renvoyer sous forme JSON
-                data = {
-                    "registration_number": vehicule.registration_number,
-                    "model": vehicule.model,
-                    "brand": vehicule.brand,
-                    "price_per_day": float(vehicule.price_per_day),
-                }
-                return JsonResponse(data)
-            except Vehicule.DoesNotExist:
-                # Si aucun véhicule ne correspond, je renvoie une erreur 404
-                return JsonResponse({"error": "Vehicule not found"}, status=404)
-
-        # Si le paramètre est manquant, je renvoie une erreur 400
-        return JsonResponse({"error": "Missing registration_number parameter"}, status=400)
-
-
-# Cette vue permet de rechercher tous les véhicules ayant un prix inférieur ou égal à un prix donné
+# Recherche par prix maximum
 class SearchByPriceView(View):
     def get(self, request):
-        # Je récupère le paramètre 'max_price' passé dans l'URL
         max_price = request.GET.get('max_price')
+        if not max_price:
+            return JsonResponse({'error': 'max_price parameter is required'}, status=400)
+        
+        try:
+            max_price = float(max_price)
+        except ValueError:
+            return JsonResponse({'error': 'max_price must be a number'}, status=400)
 
-        if max_price:
-            try:
-                # Je transforme la valeur reçue en float pour filtrer les prix
-                max_price = float(max_price)
-                # Je filtre tous les véhicules dont le prix est <= au prix max donné
-                vehicules = Vehicule.objects.filter(price_per_day__lte=max_price)
-                # Je construis une liste de dictionnaires pour tous les véhicules trouvés
-                data = [
-                    {
-                        "registration_number": v.registration_number,
-                        "model": v.model,
-                        "brand": v.brand,
-                        "price_per_day": float(v.price_per_day),
-                    }
-                    for v in vehicules
-                ]
-                # Je renvoie la liste complète en JSON
-                return JsonResponse(data, safe=False)
-            except ValueError:
-                # Si le prix reçu n'est pas un nombre valide, je renvoie une erreur 400
-                return JsonResponse({"error": "Invalid price format"}, status=400)
-
-        # Si le paramètre est manquant, je renvoie une erreur 400
-        return JsonResponse({"error": "Missing max_price parameter"}, status=400)
+        vehicules = Vehicule.objects.filter(rentalprice__lte=max_price)
+        data = list(vehicules.values())
+        return JsonResponse(data, safe=False)
