@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from vehicule.views import search_by_registration, search_by_price
+# from vehicule.views import search_by_registration, search_by_price
 
 urlpatterns = [
     path('admin/', admin.site.urls),
