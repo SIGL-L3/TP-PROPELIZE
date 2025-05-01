@@ -38,12 +38,17 @@ class VehiculeView(APIView):
         print(vehicule)
         return Response({"Success Create vehicule"})
 
-        def patch(self,request,pk):
-            vehicule = get_object_or_404(Vehicule,pk=pk)
+    def patch(self,request,pk):
+        vehicule = get_object_or_404(Vehicule,pk=pk)
 
-            serializer = VehiculeSerializer(vehicule,request.data,partial=True)
+        serializer = VehiculeSerializer(vehicule,request.data,partial=True)
 
-            if serializer.is_valid():
-                serializer.save()
-                return  Response(serializer.data)
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        if serializer.is_valid():
+            serializer.save()
+            return  Response(serializer.data)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+      
+    def delete(self, request, pk):
+        vehicule = get_object_or_404(Vehicule,pk=pk)
+        vehicule.delete()
+        return Response(status=status.HTTP_200_OK)
