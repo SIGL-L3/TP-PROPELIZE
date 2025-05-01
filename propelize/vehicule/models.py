@@ -6,3 +6,8 @@ class Vehicule (models.Model):
     model = models.CharField(max_length=127)
     year = models.PositiveIntegerField()
     rentalprice = models.DecimalField(max_digits=10,decimal_places=3)
+
+
+
+
+    
