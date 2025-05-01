@@ -2,7 +2,7 @@ import json
 from django.core.management.base import BaseCommand
 from vehicule.models import Vehicule  
 
-#la commande externe est python3 manage.py load_fictures dau niveau de manage.py 
+#la commande externe est python3 manage.py load_fixtures dau niveau de manage.py 
 
 class Command(BaseCommand):
     help = 'Charge les données depuis un fichier JSON dans la base de données'
