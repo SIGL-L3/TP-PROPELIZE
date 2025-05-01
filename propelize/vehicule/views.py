@@ -1,6 +1,3 @@
-import json
-from django.http import JsonResponse
-from vehicule.models import Vehicule
 from rest_framework.views import  APIView
 from django.shortcuts import get_object_or_404
 from .models import Vehicule
