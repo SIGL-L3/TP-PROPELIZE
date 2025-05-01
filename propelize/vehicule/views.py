@@ -1,9 +1,17 @@
 import json
 from django.http import JsonResponse
-from rest_framework.views import APIView
 from vehicule.models import Vehicule
-from rest_framework.response import Response
-from rest_framework.parsers import JSONParser
+from rest_framework.views import  APIView
+from django.shortcuts import get_object_or_404
+from .models import Vehicule
+from rest_framework import  status
+
+from .serializers import VehiculeSerializer
+from rest_framework.response import  Response
+
+from django.http import JsonResponse
+from django.views import View
+
 
 
 class VehiculeView(APIView):
