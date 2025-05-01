@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import  DeleteVehiculeAPIView
+from .views import  VehiculeView
 
 urlpatterns = [
-    path('vehicules/<int:pk>/', DeleteVehiculeAPIView.as_view(), name='vehicule-detail'),
+    path('delete/<int:pk>/', VehiculeView.as_view()),
 ]
 
