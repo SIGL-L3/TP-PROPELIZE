@@ -18,7 +18,7 @@ class VehiculeView(APIView):
         serializer = VehiculeSerializer(vehicule)
         return Response(serializer.data)
 
-    
+
     def post(self, request):
         serializer = VehiculeSerializer(data=request.data)
 
@@ -37,7 +37,7 @@ class VehiculeView(APIView):
             serializer.save()
             return  Response(serializer.data)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-      
+
     def delete(self, request, pk):
         vehicule = get_object_or_404(Vehicule,pk=pk)
         vehicule.delete()
@@ -48,7 +48,7 @@ class SearchByRegistrationView(View):
         registration_number = request.GET.get('registration_number')
         if not registration_number:
             return JsonResponse({'error': 'registration_number parameter is required'}, status=400)
-        
+
         vehicules = Vehicule.objects.filter(registration_number=registration_number)
         data = list(vehicules.values())
         return JsonResponse(data, safe=False)
@@ -59,7 +59,7 @@ class SearchByPriceView(View):
         max_price = request.GET.get('max_price')
         if not max_price:
             return JsonResponse({'error': 'max_price parameter is required'}, status=400)
-        
+
         try:
             max_price = float(max_price)
         except ValueError:
