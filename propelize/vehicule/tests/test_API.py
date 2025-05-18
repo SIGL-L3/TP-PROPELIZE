@@ -1,7 +1,7 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
-from vehicule.models import Vehicule
+from ..models import Vehicule
 
 class VehiculeAPITest(APITestCase):
     def setUp(self):

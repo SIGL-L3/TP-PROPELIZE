@@ -57,7 +57,7 @@ class VehiculeModelTest(TestCase):
 
     def test_invalid_rental_price(self):
         with self.assertRaises(Exception):
-            Vehicule = Vehicule(
+            vehicule = Vehicule(
                 registration_number="WW123WW",
                 make="Renault",
                 model="Clio",

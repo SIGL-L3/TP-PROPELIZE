@@ -9,7 +9,12 @@ class MyUserManager(BaseUserManager):
             raise ValueError("L'utilisateur doit avoir une nom")
 
         user = self.model(name=name)
-        user.set_password(password)
+
+        if len(password)>=8:
+            user.set_password(password)
+        else:
+            raise ValueError("Le mot de passer doit avoir au moins 8 caracteres")
+
         user.save(using=self._db)
 
         return user
