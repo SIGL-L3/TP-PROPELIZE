@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-)ybe55!sl67svh&r$vlzomln0cr_b_ua03#*toas323-#t@m9g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'testserver']
 
 
 # Application definition
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'vehicule',
-    'rest_framework'
+    'user',
+    'rest_framework_simplejwt',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -121,3 +122,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=24),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=3),
+}
+
+AUTH_USER_MODEL = 'user.User'
