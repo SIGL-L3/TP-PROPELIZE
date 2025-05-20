@@ -3,9 +3,21 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from ..models import Vehicule
 from django.test import TestCase
+from rest_framework_simplejwt.tokens import  RefreshToken
+from django.contrib.auth import get_user_model
 
 class VehiculeAPITest(APITestCase):
     def setUp(self):
+
+        self.user = get_user_model().objects.create_user(
+            name='testuser',
+            password='testpassword'
+        )
+
+        token = RefreshToken.for_user(self.user)
+        self.access_token = str(token.access_token)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+
         self.vehicule = Vehicule.objects.create(
             registration_number="123XYZ",
             make="Toyota",
@@ -15,7 +27,8 @@ class VehiculeAPITest(APITestCase):
         )
     
     def test_get_single_vehicule(self):
-        url = reverse('vehicule-detail', kwargs={'pk': self.vehicule.pk}) 
+        url = reverse('vehicule-detail', kwargs={'pk': self.vehicule.pk})
+
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -91,9 +104,19 @@ class SearchViewTests(TestCase):
 
 class VehiculeIntegrationTest(APITestCase):
 
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            name='testuser',
+            password='testpassword'
+        )
+
+        token = RefreshToken.for_user(self.user)
+        self.access_token = str(token.access_token)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+
     def test_crud_workflow(self):
         #  CREATE
-        create_url = reverse('vehicule-create') 
+        create_url = reverse('vehicule-create')
         data_create = {
             "registration_number": "ZZ999ZZ",
             "make": "Peugeot",
