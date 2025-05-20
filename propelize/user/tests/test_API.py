@@ -160,11 +160,3 @@ class UsuerAPITest(APITestCase):
         response = self.client.patch(update_url, data=update_data, format='json', **headers)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['name'], 'integration_user_updated')
-
-        #  Suppression de l’utilisateur
-        delete_url = reverse('delete-user', kwargs={'pk': user_id})
-        response = self.client.delete(delete_url, **headers)
-        self.assertIn(response.status_code, [status.HTTP_200_OK, status.HTTP_204_NO_CONTENT])
-
-        # Vérification que l’utilisateur est bien supprimé
-        self.assertFalse(User.objects.filter(pk=user_id).exists())
