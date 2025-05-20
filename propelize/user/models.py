@@ -1,4 +1,5 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
+
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
 
@@ -34,30 +35,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
-    groups = models.ManyToManyField(
-        Group,
-        related_name='custom_user_set',  # nom unique pour éviter conflit
-        blank=True,
-        help_text='The groups this user belongs to.',
-        verbose_name='groups',
-        related_query_name='user',
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name='custom_user_set',  # nom unique pour éviter conflit
-        blank=True,
-        help_text='Specific permissions for this user.',
-        verbose_name='user permissions',
-        related_query_name='user',
-    )
-
-    USERNAME_FIELD = 'name'
-    REQUIRED_FIELDS = []
-
-    objects = MyUserManager()
-
-    def __str__(self):
-        return str(self.name)
     USERNAME_FIELD = 'name'
     REQUIRED_FIELDS = []
 

@@ -3,7 +3,7 @@ from rest_framework.test import  APITestCase
 from rest_framework import  status
 from ..models import User
 
-class UserAPITest(APITestCase):
+class UsuerAPITest(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             name="Emile",
@@ -85,7 +85,6 @@ class UserAPITest(APITestCase):
         data = {"name": "noregisteruser", "password": ""}
 
         response = self.client.post(url, data=data, format='json')
-
         self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
         
         
@@ -130,10 +129,7 @@ class UserAPITest(APITestCase):
             'password': self.password
         }, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        
-        
-        
-        
+                
     def test_user_integration_workflow(self):
         # Création de l’utilisateur
         create_url = reverse('create-user')

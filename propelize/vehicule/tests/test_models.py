@@ -41,7 +41,8 @@ class VehiculeModelTest(TestCase):
         )
         
         with self.assertRaises(ValidationError):
-            print(vehicule.full_clean())
+            vehicule.full_clean()
+
     
     def test_negative_year(self):
         vehicule = Vehicule(
