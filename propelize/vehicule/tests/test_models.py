@@ -41,7 +41,7 @@ class VehiculeModelTest(TestCase):
         )
         
         with self.assertRaises(ValidationError):
-            print(vehicule.full_clean())
+            vehicule.full_clean()
     
     def test_negative_year(self):
         vehicule = Vehicule(
@@ -56,14 +56,15 @@ class VehiculeModelTest(TestCase):
             vehicule.full_clean()
 
     def test_invalid_rental_price(self):
+        vehicule = Vehicule(
+            registration_number="WW123WW",
+            make="Renault",
+            model="Clio",
+            year=2023,
+            rentalprice="prix"  # mauvais type (string)
+        )
         with self.assertRaises(Exception):
-            vehicule = Vehicule(
-                registration_number="WW123WW",
-                make="Renault",
-                model="Clio",
-                year=2023,
-                rentalprice="prix"  # mauvais type (string)
-            )
+            vehicule.full_clean()
             
     def test_str_method(self):
         vehicule = Vehicule.objects.create(
