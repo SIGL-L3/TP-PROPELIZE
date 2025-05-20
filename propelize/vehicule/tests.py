@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from django.core.management import call_command
-from vehicule.models import Vehicule
+from .models import Vehicule
 
 class LoadFixtureTest(TestCase):
 
