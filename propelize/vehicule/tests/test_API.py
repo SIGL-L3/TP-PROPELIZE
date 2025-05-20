@@ -205,7 +205,7 @@ class SearchViewTests(TestCase):
 class VehiculeIntegrationTest(APITestCase):
 
     def test_crud_workflow(self):
-        # 1. CREATE
+        #  CREATE
         create_url = reverse('vehicule-create') 
         data_create = {
             "registration_number": "ZZ999ZZ",
@@ -218,13 +218,13 @@ class VehiculeIntegrationTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         vehicule_id = response.data['id']  # récupère l'id créé
 
-        # 2. READ
+        #  READ
         detail_url = reverse('vehicule-detail', kwargs={'pk': vehicule_id})
         response = self.client.get(detail_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['registration_number'], data_create['registration_number'])
 
-        # 3. UPDATE
+        #  UPDATE
         update_url = reverse('vehicule-update', kwargs={'pk': vehicule_id})
         data_update = {
             "registration_number": "ZZ999ZZ",
@@ -239,11 +239,11 @@ class VehiculeIntegrationTest(APITestCase):
         self.assertEqual(float(response.data['rentalprice']), 120.0)
 
 
-        # 4. DELETE (si tu as un endpoint de suppression)
+        #  DELETE (si tu as un endpoint de suppression)
         delete_url = reverse('vehicule-delete', kwargs={'pk': vehicule_id})
         response = self.client.delete(delete_url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-        # 5. Vérifier que le véhicule est bien supprimé
+        #  Vérifier que le véhicule est bien supprimé
         response = self.client.get(detail_url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

@@ -135,7 +135,7 @@ class UserAPITest(APITestCase):
         
         
     def test_user_integration_workflow(self):
-        # Étape 1 : Création de l’utilisateur
+        # Création de l’utilisateur
         create_url = reverse('create-user')
         user_data = {
             'name': 'integration_user',
@@ -145,7 +145,7 @@ class UserAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['name'], 'integration_user')
 
-        # Étape 2 : Connexion de l’utilisateur pour obtenir les tokens
+        #  Connexion de l’utilisateur pour obtenir les tokens
         login_url = reverse('token_obtain')
         login_data = {
             'name': 'integration_user',
@@ -157,7 +157,7 @@ class UserAPITest(APITestCase):
         token = response.data['access']
         headers = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
-        # Étape 3 : Mise à jour du nom d’utilisateur
+        #  Mise à jour du nom d’utilisateur
         user_id = response.data.get('user', {}).get('id') or User.objects.get(name='integration_user').id
         update_url = reverse('update-user', kwargs={'pk': user_id})
         update_data = {'name': 'integration_user_updated'}
@@ -165,7 +165,7 @@ class UserAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['name'], 'integration_user_updated')
 
-        # Étape 4 : Suppression de l’utilisateur
+        #  Suppression de l’utilisateur
         delete_url = reverse('delete-user', kwargs={'pk': user_id})
         response = self.client.delete(delete_url, **headers)
         self.assertIn(response.status_code, [status.HTTP_200_OK, status.HTTP_204_NO_CONTENT])
