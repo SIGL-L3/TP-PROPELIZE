@@ -42,6 +42,7 @@ class VehiculeModelTest(TestCase):
         
         with self.assertRaises(ValidationError):
             vehicule.full_clean()
+
     
     def test_negative_year(self):
         vehicule = Vehicule(
@@ -63,8 +64,8 @@ class VehiculeModelTest(TestCase):
             year=2023,
             rentalprice="prix"  # mauvais type (string)
         )
-        with self.assertRaises(Exception):
-            vehicule.full_clean()
+        with self.assertRaises(ValidationError):
+            vehicule.full_clean()  # déclenche la validation des champs
             
     def test_str_method(self):
         vehicule = Vehicule.objects.create(

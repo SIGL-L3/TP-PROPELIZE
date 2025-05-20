@@ -39,9 +39,10 @@ class VehiculeView(APIView):
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        vehicule = get_object_or_404(Vehicule,pk=pk)
+        vehicule = get_object_or_404(Vehicule, pk=pk)
         vehicule.delete()
-        return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 # Recherche par immatriculation (exact match)
 class SearchByRegistrationView(View):
     def get(self, request):
