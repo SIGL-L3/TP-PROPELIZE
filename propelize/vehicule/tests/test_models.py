@@ -56,14 +56,15 @@ class VehiculeModelTest(TestCase):
             vehicule.full_clean()
 
     def test_invalid_rental_price(self):
-        with self.assertRaises(Exception):
-            vehicule = Vehicule(
-                registration_number="WW123WW",
-                make="Renault",
-                model="Clio",
-                year=2023,
-                rentalprice="prix"  # mauvais type (string)
-            )
+        vehicule = Vehicule(
+            registration_number="WW123WW",
+            make="Renault",
+            model="Clio",
+            year=2023,
+            rentalprice="prix"  # mauvais type (string)
+        )
+        with self.assertRaises(ValidationError):
+            vehicule.full_clean()  # déclenche la validation des champs
             
     def test_str_method(self):
         vehicule = Vehicule.objects.create(
