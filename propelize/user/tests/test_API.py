@@ -130,3 +130,45 @@ class UserAPITest(APITestCase):
             'password': self.password
         }, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        
+        
+        
+        
+    def test_user_integration_workflow(self):
+        # Étape 1 : Création de l’utilisateur
+        create_url = reverse('create-user')
+        user_data = {
+            'name': 'integration_user',
+            'password': 'TestPassword123'
+        }
+        response = self.client.post(create_url, user_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['name'], 'integration_user')
+
+        # Étape 2 : Connexion de l’utilisateur pour obtenir les tokens
+        login_url = reverse('token_obtain')
+        login_data = {
+            'name': 'integration_user',
+            'password': 'TestPassword123'
+        }
+        response = self.client.post(login_url, login_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn('access', response.data)
+        token = response.data['access']
+        headers = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+
+        # Étape 3 : Mise à jour du nom d’utilisateur
+        user_id = response.data.get('user', {}).get('id') or User.objects.get(name='integration_user').id
+        update_url = reverse('update-user', kwargs={'pk': user_id})
+        update_data = {'name': 'integration_user_updated'}
+        response = self.client.patch(update_url, data=update_data, format='json', **headers)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['name'], 'integration_user_updated')
+
+        # Étape 4 : Suppression de l’utilisateur
+        delete_url = reverse('delete-user', kwargs={'pk': user_id})
+        response = self.client.delete(delete_url, **headers)
+        self.assertIn(response.status_code, [status.HTTP_200_OK, status.HTTP_204_NO_CONTENT])
+
+        # Vérification que l’utilisateur est bien supprimé
+        self.assertFalse(User.objects.filter(pk=user_id).exists())
