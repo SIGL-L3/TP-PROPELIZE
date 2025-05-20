@@ -9,9 +9,12 @@ from rest_framework.response import  Response
 from django.http import JsonResponse
 from django.views import View
 
-
+from rest_framework.permissions import IsAuthenticated
 
 class VehiculeView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
     def get(self,request,pk):
         vehicule = get_object_or_404(Vehicule,pk=pk)
 
