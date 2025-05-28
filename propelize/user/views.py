@@ -13,6 +13,11 @@ class UserView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
+
+        name = request.data.get('name')
+        if User.objects.filter(name=name).exists():
+            return Response({'error': 'username already take'}, status=status.HTTP_400_BAD_REQUEST)
+
         return  Response(status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self,request,pk):
