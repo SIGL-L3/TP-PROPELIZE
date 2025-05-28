@@ -3,44 +3,220 @@
         "model": "vehicule.vehicule",
         "pk": 1,
         "fields": {
-            "registration_number": "ABC123",
+            "registration_number": "AB-123-CD",
             "make": "Toyota",
             "model": "Corolla",
             "year": 2020,
-            "rentalprice": 150.000
+            "rentalprice": "150.00"
         }
     },
     {
         "model": "vehicule.vehicule",
         "pk": 2,
         "fields": {
-            "registration_number": "XYZ456",
+            "registration_number": "EF-456-GH",
             "make": "Honda",
             "model": "Civic",
             "year": 2019,
-            "rentalprice": 120.000
+            "rentalprice": "120.00"
         }
     },
     {
         "model": "vehicule.vehicule",
         "pk": 3,
         "fields": {
-            "registration_number": "LMN789",
+            "registration_number": "IJ-789-KL",
             "make": "Ford",
             "model": "Focus",
             "year": 2021,
-            "rentalprice": 180.000
+            "rentalprice": "180.00"
         }
     },
     {
         "model": "vehicule.vehicule",
         "pk": 4,
         "fields": {
-            "registration_number": "PQR321",
+            "registration_number": "MN-321-OP",
             "make": "BMW",
             "model": "320i",
             "year": 2022,
-            "rentalprice": 250.000
+            "rentalprice": "250.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 5,
+        "fields": {
+            "registration_number": "QR-654-ST",
+            "make": "Volkswagen",
+            "model": "Golf",
+            "year": 2021,
+            "rentalprice": "165.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 6,
+        "fields": {
+            "registration_number": "UV-987-WX",
+            "make": "Audi",
+            "model": "A3",
+            "year": 2022,
+            "rentalprice": "220.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 7,
+        "fields": {
+            "registration_number": "YZ-111-AB",
+            "make": "Mercedes-Benz",
+            "model": "A-Class",
+            "year": 2021,
+            "rentalprice": "230.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 8,
+        "fields": {
+            "registration_number": "BC-222-DE",
+            "make": "Renault",
+            "model": "Clio",
+            "year": 2023,
+            "rentalprice": "95.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 9,
+        "fields": {
+            "registration_number": "FG-333-HI",
+            "make": "Peugeot",
+            "model": "208",
+            "year": 2022,
+            "rentalprice": "110.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 10,
+        "fields": {
+            "registration_number": "JK-444-LM",
+            "make": "Hyundai",
+            "model": "i30",
+            "year": 2020,
+            "rentalprice": "135.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 11,
+        "fields": {
+            "registration_number": "NO-555-PQ",
+            "make": "Kia",
+            "model": "Ceed",
+            "year": 2021,
+            "rentalprice": "140.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 12,
+        "fields": {
+            "registration_number": "RS-666-TU",
+            "make": "Ford",
+            "model": "Mustang",
+            "year": 2019,
+            "rentalprice": "280.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 13,
+        "fields": {
+            "registration_number": "VW-777-XY",
+            "make": "Toyota",
+            "model": "RAV4",
+            "year": 2022,
+            "rentalprice": "190.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 14,
+        "fields": {
+            "registration_number": "ZA-888-BC",
+            "make": "Honda",
+            "model": "CR-V",
+            "year": 2020,
+            "rentalprice": "185.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 15,
+        "fields": {
+            "registration_number": "DE-999-FG",
+            "make": "BMW",
+            "model": "X5",
+            "year": 2021,
+            "rentalprice": "350.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 16,
+        "fields": {
+            "registration_number": "HI-101-JK",
+            "make": "Audi",
+            "model": "Q5",
+            "year": 2020,
+            "rentalprice": "320.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 17,
+        "fields": {
+            "registration_number": "LM-202-NO",
+            "make": "Peugeot",
+            "model": "3008",
+            "year": 2023,
+            "rentalprice": "210.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 18,
+        "fields": {
+            "registration_number": "PQ-303-RS",
+            "make": "Volkswagen",
+            "model": "Passat",
+            "year": 2019,
+            "rentalprice": "175.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 19,
+        "fields": {
+            "registration_number": "TU-404-VW",
+            "make": "Tesla",
+            "model": "Model 3",
+            "year": 2022,
+            "rentalprice": "300.00"
+        }
+    },
+    {
+        "model": "vehicule.vehicule",
+        "pk": 20,
+        "fields": {
+            "registration_number": "XY-505-ZA",
+            "make": "Renault",
+            "model": "Captur",
+            "year": 2021,
+            "rentalprice": "155.00"
         }
     }
 ]
