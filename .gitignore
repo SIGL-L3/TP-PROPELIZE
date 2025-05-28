@@ -1,0 +1,4 @@
+# Fichiers générés par l'IDE (PyCharm, VSCode)
+.vscode/
+.idea/
+*.iml
