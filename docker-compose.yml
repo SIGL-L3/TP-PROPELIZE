@@ -10,7 +10,7 @@ services:
       - ./propelize:/app/propelize
       - ./propelize/manage.py:/app/propelize/manage.py
       - ./requirements.txt:/app/requirements.txt
-      - ./propelizeFrontend:/app/propelizeFrontend
+      - ./PropelizeFrontend:/app/PropelizeFrontend
     working_dir: /app/propelize
     command: python manage.py runserver 0.0.0.0:8000
     depends_on: []
@@ -22,14 +22,14 @@ services:
 
   frontend:
     build:
-      context: ./propelizeFrontend
+      context: ./PropelizeFrontend
       dockerfile: Dockerfile
     container_name: propelize_frontend
     ports:
       - "3000:3000"
     volumes:
-      - ./propelizeFrontend:/app/propelizeFrontend
-    working_dir: /app/propelizeFrontend
+      - ./PropelizeFrontend:/app/PropelizeFrontend
+    working_dir: /app/PropelizeFrontend
     command: npm start
     depends_on:
       - web
