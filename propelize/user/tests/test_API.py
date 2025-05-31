@@ -5,7 +5,7 @@ from ..models import User
 from vehicule.models import Vehicule
 
 
-class UserAPITest(APITestCase):
+class UsuerAPITest(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             name="Emile",
@@ -87,7 +87,6 @@ class UserAPITest(APITestCase):
         data = {"name": "noregisteruser", "password": ""}
 
         response = self.client.post(url, data=data, format='json')
-
         self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
         
         
