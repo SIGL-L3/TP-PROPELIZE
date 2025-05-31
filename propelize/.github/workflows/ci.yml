@@ -1,0 +1,129 @@
+name: CI & Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: propelize
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Check Python formatting (black)
+        run: |
+          pip install black
+          black --check .
+
+      - name: Lint Python code (flake8)
+        run: |
+          pip install flake8
+          flake8 .
+
+      - name: Security check (bandit)
+        run: |
+          pip install bandit
+          bandit -r .
+
+      - name: Run Django tests
+        run: |
+          python manage.py migrate
+          python manage.py test 
+        continue-on-error: false
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-results
+          path: propelize/test-results/
+
+  frontend-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: PropelizeFrontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check formatting (Prettier)
+        run: npx prettier --check .
+
+      - name: Lint JS/TS code (ESLint)
+        run: npx eslint .
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npm test
+
+      - name: Upload Playwright test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-test-results
+          path:  PropelizeFrontend/test-results/
+
+  docker-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and test Docker image
+        run: |
+          docker build -t propelize .
+          docker run --rm propelize python manage.py migrate
+          docker run --rm propelize python manage.py test
+
+      - name: Run Docker Compose tests
+        run: |
+          docker compose up --build --abort-on-container-exit
+
+      - name: Stop Docker Compose
+        run: |
+          docker compose down
+          docker system prune -f
+
+      - name: Check Docker image
+        run: |
+          docker images
+          docker ps -a
+          docker logs propelize_web_1 || true
+          docker logs propelize_db_1 || true
+          docker logs propelize_redis_1 || true
+          docker logs propelize_celery_1 || true
+          docker logs propelize_celery-beat_1 || true
+
+      - name: Check Docker Compose status
+        run: |
+          docker compose ps
+          docker compose logs
+          docker compose config
+          docker compose version
