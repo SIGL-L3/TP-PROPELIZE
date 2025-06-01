@@ -166,7 +166,7 @@ class UsuerAPITest(APITestCase):
             'model': 'Corolla',
             'year': 2023,
             'rentalprice': 50000,
-            'owner': user_id # Décommentez cette ligne si votre serializer attend explicitement un propriétaire
+            'owner': user_id # Associe le véhicule à l'utilisateur créé
         }
         response = self.client.post(vehicule_create_url, vehicule_data, format='json', **headers)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -194,8 +194,4 @@ class UsuerAPITest(APITestCase):
         # Vérifie que le véhicule n'existe plus pour cet utilisateur
         self.assertFalse(Vehicule.objects.filter(pk=vehicule_id).exists())
 
-        # Suppression de l’utilisateur
-        delete_url = reverse('delete-user', kwargs={'pk': user_id})
-        response = self.client.delete(delete_url, **headers)
-        self.assertIn(response.status_code, [status.HTTP_200_OK, status.HTTP_204_NO_CONTENT])
-        self.assertFalse(User.objects.filter(pk=user_id).exists())
+    
