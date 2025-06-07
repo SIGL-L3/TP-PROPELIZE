@@ -4,8 +4,22 @@ from rest_framework import status
 from ..models import Vehicule
 from django.test import TestCase
 
+from rest_framework_simplejwt.tokens import  RefreshToken
+from django.contrib.auth import get_user_model
+from ..serializers import VehiculeSerializer
+
 class VehiculeAPITest(APITestCase):
     def setUp(self):
+
+        self.user = get_user_model().objects.create_user(
+            name='testuser',
+            password='testpassword'
+        )
+
+        token = RefreshToken.for_user(self.user)
+        self.access_token = str(token.access_token)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+
         self.vehicule = Vehicule.objects.create(
             registration_number="123XYZ",
             make="Toyota",
@@ -13,13 +27,35 @@ class VehiculeAPITest(APITestCase):
             year=2022,
             rentalprice=100.000
         )
+
+        self.vehicule2=Vehicule.objects.create(
+            registration_number="123XZZ",
+            make="Toyota",
+            model="CHR",
+            year=2022,
+            rentalprice=110.000
+        )
+
+        self.vehicules_serilizer = VehiculeSerializer([self.vehicule,self.vehicule2],many=True)
+
     
     def test_get_single_vehicule(self):
-        url = reverse('vehicule-detail', kwargs={'pk': self.vehicule.pk}) 
+        url = reverse('vehicule-detail', kwargs={'pk': self.vehicule.pk})
+
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['model'], "CHR")
+
+    def test_get_all_vehicule(self):
+        url = reverse('vehicule-list')
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
+
+        self.assertEqual(response.data, self.vehicules_serilizer.data)
 
 class SearchViewTests(TestCase):
     def setUp(self):
@@ -91,9 +127,19 @@ class SearchViewTests(TestCase):
 
 class VehiculeIntegrationTest(APITestCase):
 
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            name='testuser',
+            password='testpassword'
+        )
+
+        token = RefreshToken.for_user(self.user)
+        self.access_token = str(token.access_token)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+
     def test_crud_workflow(self):
         #  CREATE
-        create_url = reverse('vehicule-create') 
+        create_url = reverse('vehicule-create')
         data_create = {
             "registration_number": "ZZ999ZZ",
             "make": "Peugeot",

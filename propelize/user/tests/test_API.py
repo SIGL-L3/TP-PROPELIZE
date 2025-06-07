@@ -193,5 +193,3 @@ class UsuerAPITest(APITestCase):
 
         # Vérifie que le véhicule n'existe plus pour cet utilisateur
         self.assertFalse(Vehicule.objects.filter(pk=vehicule_id).exists())
-
-    
