@@ -2,6 +2,8 @@ from django.urls import  reverse
 from rest_framework.test import  APITestCase
 from rest_framework import  status
 from ..models import User
+from vehicule.models import Vehicule
+
 
 class UsuerAPITest(APITestCase):
     def setUp(self):
@@ -129,8 +131,8 @@ class UsuerAPITest(APITestCase):
             'password': self.password
         }, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-                
-    def test_user_integration_workflow(self):
+        
+    def test_user_vehicle_integration_workflow(self):
         # Création de l’utilisateur
         create_url = reverse('create-user')
         user_data = {
@@ -141,7 +143,7 @@ class UsuerAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['name'], 'integration_user')
 
-        #  Connexion de l’utilisateur pour obtenir les tokens
+        # Connexion de l’utilisateur pour obtenir les tokens
         login_url = reverse('token_obtain')
         login_data = {
             'name': 'integration_user',
@@ -153,10 +155,41 @@ class UsuerAPITest(APITestCase):
         token = response.data['access']
         headers = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
-        #  Mise à jour du nom d’utilisateur
+        # Récupération de l'id utilisateur
         user_id = response.data.get('user', {}).get('id') or User.objects.get(name='integration_user').id
-        update_url = reverse('update-user', kwargs={'pk': user_id})
-        update_data = {'name': 'integration_user_updated'}
-        response = self.client.patch(update_url, data=update_data, format='json', **headers)
+
+        # Création d’un véhicule
+        vehicule_create_url = reverse('vehicule-create')
+        vehicule_data = {
+            'registration_number': 'AA-123-BB',
+            'make': 'Toyota',
+            'model': 'Corolla',
+            'year': 2023,
+            'rentalprice': 50000,
+            'owner': user_id # Associe le véhicule à l'utilisateur créé
+        }
+        response = self.client.post(vehicule_create_url, vehicule_data, format='json', **headers)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        vehicule_id = response.data['id']
+
+    
+        # Détail d’un véhicule
+        vehicule_detail_url = reverse('vehicule-detail', kwargs={'pk': vehicule_id})
+        response = self.client.get(vehicule_detail_url, format='json', **headers)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['name'], 'integration_user_updated')
+        self.assertEqual(response.data['id'], vehicule_id)
+
+        # Mise à jour du véhicule
+        vehicule_update_url = reverse('vehicule-update', kwargs={'pk': vehicule_id})
+        update_data = {'make': 'Toyota Modified'}
+        response = self.client.patch(vehicule_update_url, data=update_data, format='json', **headers)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['make'], 'Toyota Modified')
+
+        # Suppression du véhicule
+        vehicule_delete_url = reverse('vehicule-delete', kwargs={'pk': vehicule_id})
+        response = self.client.delete(vehicule_delete_url, **headers)
+        self.assertIn(response.status_code, [status.HTTP_200_OK, status.HTTP_204_NO_CONTENT])
+
+        # Vérifie que le véhicule n'existe plus pour cet utilisateur
+        self.assertFalse(Vehicule.objects.filter(pk=vehicule_id).exists())
