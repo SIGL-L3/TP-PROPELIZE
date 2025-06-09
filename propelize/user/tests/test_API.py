@@ -4,7 +4,6 @@ from rest_framework import  status
 from ..models import User
 from vehicule.models import Vehicule
 
-
 class UsuerAPITest(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(

@@ -5,13 +5,13 @@ from ..models import Vehicule
 from django.test import TestCase
 
 from rest_framework_simplejwt.tokens import  RefreshToken
-from django.contrib.auth import get_user_model
 from ..serializers import VehiculeSerializer
+from user.models import User
 
 class VehiculeAPITest(APITestCase):
     def setUp(self):
 
-        self.user = get_user_model().objects.create_user(
+        self.user = User.objects.create(
             name='testuser',
             password='testpassword'
         )
@@ -38,7 +38,7 @@ class VehiculeAPITest(APITestCase):
 
         self.vehicules_serilizer = VehiculeSerializer([self.vehicule,self.vehicule2],many=True)
 
-    
+
     def test_get_single_vehicule(self):
         url = reverse('vehicule-detail', kwargs={'pk': self.vehicule.pk})
 
@@ -57,9 +57,17 @@ class VehiculeAPITest(APITestCase):
 
         self.assertEqual(response.data, self.vehicules_serilizer.data)
 
-class SearchViewTests(TestCase):
+class SearchViewTests(APITestCase):
     def setUp(self):
-        # Arrange : Création de données de test
+        self.user = User.objects.create(
+            name='testuser',
+            password='testpassword'
+        )
+
+        token = RefreshToken.for_user(self.user)
+        self.access_token = str(token.access_token)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+
         Vehicule.objects.create(registration_number='ABC123', make='Honda' , model='Accord', rentalprice=100.0, year=2020)
         Vehicule.objects.create(registration_number='XYZ789', make='Toyota' , model='Camry', rentalprice=200.0, year=2025)
 
@@ -128,7 +136,7 @@ class SearchViewTests(TestCase):
 class VehiculeIntegrationTest(APITestCase):
 
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
+        self.user = User.objects.create(
             name='testuser',
             password='testpassword'
         )
