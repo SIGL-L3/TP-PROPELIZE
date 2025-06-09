@@ -46,7 +46,7 @@ const handleregister = async () => {
         <i class='bx  bxs-user bx-sm'  style='color:#ffffff'></i>
         <i class='bx  bxs-lock bx-sm'  style='color:#ffffff'></i>
         <div class="fields">
-          <p class="error" v-if="errorsDisplay">username already take</p>
+          <p id="error" v-if="errorsDisplay">username already take</p>
           <input type="text" placeholder="username" v-model="username" autofocus required>
           <input type="password" placeholder="password" v-model="password" autocomplete="off" required>
           <button style="background: #DA0000">Sign up</button>
@@ -217,6 +217,13 @@ span{
   left: 0;
   filter: blur(80px);
   z-index: -1;
+}
 
+#error{
+  font-size: 0.8rem;
+  font-weight: normal;
+  position: absolute;
+  top: 150px;
+  color: red;
 }
 </style>

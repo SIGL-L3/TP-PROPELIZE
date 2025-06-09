@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue'
 import CarDetails from "@/components/CarDetails.vue";
 import axios from "axios";
-import Deletepopup from "@/components/icons/Deletepopup.vue";
+import Deletepopup from "@/components/Deletepopup.vue";
 
 export default defineComponent({
   name: 'Car',
@@ -82,85 +82,84 @@ export default defineComponent({
       :rentalprice="rentalprice"
   ></Deletepopup>
   <div class="car">
-    <div class="top">
-      <p style="color: #a3a3a3">{{registration_number}}</p>
+    <div class="title">
+      <p>{{registration_number}}</p>
       <p>{{ make }}</p>
       <p>{{ model }}</p>
-      <p>{{ year }}</p>
+      <p style="background-color: #C2FFD4">{{ year }}</p>
+      <p style="background-color: #FFFAC2">{{ rentalprice }} $</p>
     </div>
-
-    <div class="bottom">
-      <p>{{ rentalprice }} $</p>
-      <div class="icon">
-        <div @click="showupdate=true">
-          <img src="../assets/images/edit.png" width="20px">
-        </div>
-        <div @click="showdelete=true">
-          <img src="../assets/images/bin.png" width="20px">
-        </div>
+    <div class="icon">
+      <div @click="showupdate=true">
+        <img src="../assets/images/edit.png" width="20px">
+      </div>
+      <div @click="showdelete=true">
+        <img src="../assets/images/bin.png" width="20px">
       </div>
     </div>
   </div>
 </template>
 <style scoped>
   .car{
-    width: 160px;
-    background: #ffffff;
-    border-radius: 7px;
     color: #181818;
-    overflow: hidden;
-  }
-  .car .bottom{
+
     display: flex;
-    align-content: center;
-    padding: 0;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 30px;
+    background-color: #ffffff;
+    width: fit-content;
+
+    border-radius: 10px;
+    padding: 25px;
+    width: 90%;
   }
 
-  .car .bottom p{
-    text-align: center;
+  .car div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    overflow-x: auto;
+  }
+
+  .car >div{
+    margin: 0 20px;
+  }
+
+  .car .title{
+    display: grid;
+    grid-template-columns:1fr 1fr 1fr 1fr 1fr;
+
     width: 70%;
   }
-
-  .car .bottom .icon{
-    display: flex;
-    width: 40%;
-    justify-content: space-around;
-    background: #2c3e50;
-  }
-
-  .car .top{
+  .title p{
+    white-space: nowrap;
+    background: #f8f8f8;
     padding: 10px;
-  }
-
-
-  .car .bottom p{
-    background: #181818;
-    color: white;
+    border-radius: 10px;
     font-weight: bold;
+    text-align: center;
+
+    cursor: default;
   }
 
-
-  .car .bottom .icon div:first-child{
-    background: #84A200;
-    width: 50%;
-
+  .car .icon div{
+    padding: 10px;
+    border-radius: 100%;
+    background-color: #dadada;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transition-property: background-color;
+    transition-delay: .1s;
+    transition: 0.4s ease-in-out;
   }
 
-  .car .bottom .icon div:last-child{
-    background: #D30000;
-    width: 50%;
-
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .car .icon div:first-child:hover{
+    background-color: #00E366;
   }
 
-  .top p{
-    font-weight: bold;
+  .car .icon div:last-child:hover{
+    background-color: #E30000;
   }
 </style>

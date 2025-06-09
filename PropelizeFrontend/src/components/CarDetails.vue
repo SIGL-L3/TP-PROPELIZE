@@ -95,15 +95,6 @@ export default defineComponent({
       }
     },
 
-    // isdifferent(obj1:any, obj2:any):boolean{
-    //   for (const key in obj1){
-    //     if(obj1[key] !== obj2[key]){
-    //       return true
-    //     }
-    //   }
-    //   return false
-    // },
-
     closeupdate(){
       this.$emit('closeupdate')
     }
@@ -117,11 +108,26 @@ export default defineComponent({
       <form @submit.prevent="updatecar">
         <i class="bx bx-x bx-sm " @click.self="closeupdate" style="color: gray"/>
         <p style="color: #DA0000" v-if="showerror">Registration number already taken or invalid data</p>
-        <input type="text" placeholder="registration_number"  v-model="data_updated.registration_number" autofocus>
-        <input type="text" placeholder="make" v-model="data_updated.make">
-        <input type="text" placeholder="model" v-model="data_updated.model">
-        <input type="number" min="0" placeholder="year" v-model="data_updated.year">
-        <input type="number" maxlength="13" placeholder="rental price" v-model="data_updated.rentalprice">
+        <div>
+          <label>registration_number</label>
+          <input type="text" placeholder="registration_number"  v-model="data_updated.registration_number" autofocus>
+        </div>
+        <div>
+          <label>make</label>
+          <input type="text" placeholder="make" v-model="data_updated.make">
+        </div>
+        <div>
+          <label>model</label>
+          <input type="text" placeholder="model" v-model="data_updated.model">
+        </div>
+        <div>
+          <label>year</label>
+          <input type="number" min="0" placeholder="year" v-model="data_updated.year">
+        </div>
+        <div>
+          <label>rental price</label>
+          <input type="number" maxlength="13" placeholder="rental price" v-model="data_updated.rentalprice">
+        </div>
         <button>update</button>
       </form>
     </div>
@@ -141,7 +147,7 @@ export default defineComponent({
     border-radius: 10px;
     background: #ffffff;
     padding: 50px 0;
-    width: 450px;
+    width: 550px;
   }
   .bg{
     position: absolute;
@@ -158,7 +164,7 @@ export default defineComponent({
 
   form input{
     height: 2rem;
-    width: 70%;
+    width: 100%;
     border: 1px gray solid;
     border-radius: 5px;
     padding-left: 20px;
@@ -171,7 +177,7 @@ export default defineComponent({
 
   form button{
     height: 2rem;
-    width: 70%;
+    width: 80%;
     border: none;
     border-radius: 5px;
     padding-left: 20px;
@@ -179,10 +185,11 @@ export default defineComponent({
     color: white;
 
     font-size: 1rem;
-    background: #84A200;
+    background: #00E366;
     transition-property: background-color;
     transition: .2s ease-in-out;
 
+    margin-top: 20px;
     cursor: pointer;
   }
 
@@ -194,7 +201,7 @@ export default defineComponent({
   form i{
     position: relative;
     top: -40px;
-    right: -200px;
+    right: -250px;
     border-radius: 50%;
     transition-property: background-color;
     transition: .2s ease-in-out;
@@ -202,6 +209,18 @@ export default defineComponent({
 
   form i:hover{
     background: #e8e8e8;
+  }
+
+  form div{
+    display: flex;
+    flex-direction: column;
+  }
+  form div input{
+    width: 400px;
+  }
+
+  form div label{
+    color: #acacac;
   }
 
 </style>

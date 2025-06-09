@@ -44,11 +44,11 @@ export default defineComponent({
     <form @submit.prevent="deletecar">
       <p style="opacity: 50%">voulez vous vraiment suprimer ce vehicule ?</p>
       <div class="content">
-        <p>Registration number : {{registration_number}}</p>
-        <p>Make : {{make}}</p>
-        <p>Model : {{model}}</p>
-        <p>Year : {{year}}</p>
-        <p>Rental price : {{rentalprice}} $</p>
+        <p><span>Registration number</span> : {{registration_number}}</p>
+        <p><span>Make</span> : {{make}}</p>
+        <p><span>Model</span> : {{model}}</p>
+        <p><span>Year</span> : {{year}}</p>
+        <p><span>Rental price</span> : {{rentalprice}} $</p>
       </div>
       <div class="btn">
         <button type="button" @click="closeDeltePopoUp">x</button>
@@ -77,7 +77,7 @@ export default defineComponent({
     gap: 16px;
   }
   .content{
-    background-color: #ededed;
+    background-color: #f6f6f6;
     border-radius: 8px;
     padding: 16px;
   }
@@ -103,7 +103,7 @@ export default defineComponent({
 
   form button, .btn div{
     border: none;
-    background-color: #DA0000;
+    background-color: #ff1b1b;
     border-radius: 4px;
     padding: 8px;
     width: 70%;
@@ -145,5 +145,13 @@ export default defineComponent({
   .btn button:hover{
     filter: brightness(1.1);
     scale: 1.02;
+  }
+
+  span{
+    color: gray;
+  }
+
+  form{
+    transform: scale(1.3);
   }
 </style>

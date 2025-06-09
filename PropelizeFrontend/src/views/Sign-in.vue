@@ -7,11 +7,13 @@
   const password = ref('')
   const auth = useAuthStore()
   const router = useRouter()
-  const errorsDisplay = ref<boolean>()
+
+  let errorsDisplay = ref<boolean>(false)
   const handleLogin = async () => {
+    console.log('hello')
     const success = await auth.login(username.value,password.value)
     if (success) {
-      await router.push('/')
+      await router.push('/home')
     }else{
       errorsDisplay.value = true
     }
@@ -29,10 +31,10 @@
         <i class='bx  bxs-user bx-sm'  style='color:#ffffff'></i>
         <i class='bx  bxs-lock bx-sm'  style='color:#ffffff'></i>
         <div class="fields">
-          <p class="error" v-if="errorsDisplay">Invalid password or username</p>
+          <p :class="{error:true,visible:errorsDisplay,notvisible:!errorsDisplay}">Invalid password or username</p>
           <input type="text" placeholder="username" v-model="username" autofocus required>
           <input type="password" placeholder="password" v-model="password" autocomplete="off" required>
-          <button style="background: #DA0000">Sign in</button>
+          <button style="background: #DA0000" type="submit">Sign in</button>
         </div>
         <h5>Don't have an account ? <span @click="router.push('sign-up')">Sign up</span></h5>
       </form>
@@ -200,5 +202,20 @@
     filter: blur(80px);
     z-index: -1;
 
+  }
+
+  .visible{
+    opacity: 1;
+  }
+  .notvisible{
+    opacity: 0;
+  }
+
+  .fields .error{
+    font-size: 0.8rem;
+    font-weight: normal;
+    position: absolute;
+    top: 150px;
+    color: red;
   }
 </style>
