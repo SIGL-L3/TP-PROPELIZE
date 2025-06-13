@@ -137,7 +137,7 @@
         </div>
         <div :class="{left:true, 'left-animated':view_add}">
           <form @submit.prevent="create_vehicule">
-            <input type="text" placeholder="registration_number" v-model="cartocreate.registration_number" required autofocus>
+            <input type="text" placeholder="registration number" v-model="cartocreate.registration_number" required autofocus>
             <input type="text" placeholder="make" v-model="cartocreate.make" required>
             <input type="text" placeholder="model" v-model="cartocreate.model" required>
             <input type="number" min="0" placeholder="year" v-model="cartocreate.year" required>
