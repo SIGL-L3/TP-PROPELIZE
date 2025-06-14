@@ -1,30 +1,50 @@
-# Étape 1 : Image de base avec Python + Node + Playwright
-FROM mcr.microsoft.com/playwright:v1.41.1-focal
+# ====== Étape 1 : Backend + Frontend + Cypress build ======
+FROM python:3.11-slim AS builder
 
-# Définir le dossier principal
+# Dépendances système
+RUN apt-get update && apt-get install -y \
+    curl gnupg git build-essential libpq-dev && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Répertoire de travail
 WORKDIR /app
 
-# 🔹 Copier et installer le backend Django
+# Backend
+COPY requirements.txt ./
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+# Copier le backend
 COPY propelize/ ./propelize/
 COPY propelize/manage.py ./propelize/manage.py
-COPY requirements.txt ./
 
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
-
-# 🔹 Copier et installer le frontend Vue + Playwright
+# Frontend + Cypress
 COPY propelizeFrontend/ ./propelizeFrontend/
-
 WORKDIR /app/propelizeFrontend
-RUN npm install && npx playwright install --with-deps
+RUN npm install && npm install --save-dev cypress
 
-#  Exposer les ports nécessaires
- # Django
- EXPOSE 8000  
-  # Vue.js (si tu lances aussi l'UI depuis ce conteneur) 
- EXPOSE 3000   
-#  Lancer uniquement Django (version standard)
-WORKDIR /app/propelize
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# ====== Étape 2 : Exécution de tests avec Cypress (séparé) ======
+FROM cypress/included:12.17.1 AS cypress-runner
+COPY --from=builder /app/propelizeFrontend /app/propelizeFrontend
+WORKDIR /app/propelizeFrontend
+CMD ["npx", "cypress", "run"]
 
-#  Facultatif : tu peux créer un second Dockerfile juste pour le front
+# ====== Étape 3 : Image finale pour exécution du backend ======
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Dépendances système
+RUN apt-get update && apt-get install -y libpq-dev curl && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Copier depuis builder
+COPY --from=builder /app /app
+
+# Exposer les ports
+EXPOSE 8000
+EXPOSE 3000
+
+# Entrée pour lancer Django
+CMD ["python", "propelize/manage.py", "runserver", "0.0.0.0:8000"]

@@ -1,79 +1,42 @@
-version: '3.8'
+version: '3.9'
 
 services:
-  web:
-    build: .
-    container_name: propelize_web
-    ports:
-      - "8000:8000"
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: propelize_backend
+    command: gunicorn propelize.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ./propelize:/app/propelize
-      - ./propelize/manage.py:/app/propelize/manage.py
       - ./requirements.txt:/app/requirements.txt
-      - ./PropelizeFrontend:/app/PropelizeFrontend
-    working_dir: /app/propelize
-    command: python manage.py runserver 0.0.0.0:8000
-    depends_on: []
+    ports:
+      - "8000:8000"
     environment:
       - DJANGO_SETTINGS_MODULE=propelize.settings
-      - PYTHONUNBUFFERED=1
+      - DJANGO_SECRET_KEY=dev-secret
+      - DEBUG=True
+    depends_on: []
     networks:
-      - propelize_network
+      - propelize_net
 
   frontend:
-    build:
-      context: ./PropelizeFrontend
-      dockerfile: Dockerfile
+    image: node:20
     container_name: propelize_frontend
-    ports:
-      - "3000:3000"
+    working_dir: /app/PropelizeFrontend
     volumes:
       - ./PropelizeFrontend:/app/PropelizeFrontend
-    working_dir: /app/PropelizeFrontend
-    command: npm start
-    depends_on:
-      - web
+    command: npm run dev
+    ports:
+      - "3000:3000"
     environment:
       - NODE_ENV=development
+    depends_on:
+      - backend
     networks:
-      - propelize_network
+      - propelize_net
 
 networks:
-  propelize_network:
+  propelize_net:
     driver: bridge
 
-volumes:
-  propelize_data:
-    driver: local
-  propelize_frontend_data:
-    driver: local
-  propelize_web_data:
-    driver: local
-  propelize_db_data:
-    driver: local
-  propelize_cache_data:
-    driver: local
-  propelize_static_data:
-    driver: local
-  propelize_media_data:
-    driver: local
-  propelize_logs_data:
-    driver: local
-  propelize_config_data:
-    driver: local
-  propelize_secrets_data:
-    driver: local
-  propelize_backup_data:
-    driver: local
-  propelize_temp_data:
-    driver: local
-  propelize_test_data:
-    driver: local
-  propelize_ci_data:
-    driver: local
-  propelize_prod_data:
-    driver: local
-  propelize_dev_data:
-    driver: local
-  propelize_staging_data:
-    driver: local
