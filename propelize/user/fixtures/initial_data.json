@@ -1,0 +1,162 @@
+[
+    {
+        "model": "user.user",
+        "pk": 1,
+        "fields": {
+            "name": "alice",
+            "password": "Sunshine89!"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 2,
+        "fields": {
+            "name": "bob",
+            "password": "ForestWalk22"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 3,
+        "fields": {
+            "name": "charlie",
+            "password": "BlueOcean#1"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 4,
+        "fields": {
+            "name": "diana",
+            "password": "CoffeeTime@7"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 5,
+        "fields": {
+            "name": "emilie",
+            "password": "StrongPass9$"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 6,
+        "fields": {
+            "name": "frank",
+            "password": "NightSky77!"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 7,
+        "fields": {
+            "name": "george",
+            "password": "SecureMe21@"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 8,
+        "fields": {
+            "name": "hannah",
+            "password": "TravelMore44"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 9,
+        "fields": {
+            "name": "ian",
+            "password": "RiverSide55!"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 10,
+        "fields": {
+            "name": "julia",
+            "password": "BookLover99"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 11,
+        "fields": {
+            "name": "kevin",
+            "password": "Mountains8@"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 12,
+        "fields": {
+            "name": "laura",
+            "password": "HappyDay33#"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 13,
+        "fields": {
+            "name": "michael",
+            "password": "C0dingLife!"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 14,
+        "fields": {
+            "name": "nina",
+            "password": "PianoKeys22"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 15,
+        "fields": {
+            "name": "olive",
+            "password": "LongDrive66@"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 16,
+        "fields": {
+            "name": "paula",
+            "password": "GoldenSun12"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 17,
+        "fields": {
+            "name": "quentin",
+            "password": "RedWine34!"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 18,
+        "fields": {
+            "name": "rachel",
+            "password": "Peace&Love9"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 19,
+        "fields": {
+            "name": "steve",
+            "password": "BuildMore88"
+        }
+    },
+    {
+        "model": "user.user",
+        "pk": 20,
+        "fields": {
+            "name": "tina",
+            "password": "Cats&Books@"
+        }
+    }
+]
