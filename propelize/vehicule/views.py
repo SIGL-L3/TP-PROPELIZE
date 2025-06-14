@@ -9,15 +9,22 @@ from rest_framework.response import  Response
 from django.http import JsonResponse
 from django.views import View
 
-
+from rest_framework.permissions import IsAuthenticated
 
 class VehiculeView(APIView):
-    def get(self,request,pk):
-        vehicule = get_object_or_404(Vehicule,pk=pk)
 
-        serializer = VehiculeSerializer(vehicule)
-        return Response(serializer.data)
+    permission_classes = [IsAuthenticated]
 
+    def get(self,request,pk=None):
+        if pk:
+            vehicule = get_object_or_404(Vehicule,pk=pk)
+            serializer = VehiculeSerializer(vehicule)
+            return Response(serializer.data)
+        else:
+            vehicules = Vehicule.objects.all()
+
+            serializer = VehiculeSerializer(vehicules, many=True)
+            return Response(serializer.data)
 
     def post(self, request):
         serializer = VehiculeSerializer(data=request.data)
