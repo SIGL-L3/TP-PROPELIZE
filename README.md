@@ -18,7 +18,7 @@ TP_PROPELIZE_GROUPE_8/
 ---------------------
 ## Cloner le Projet
 Pour avoir le projet , il faut le cloner via git clone https://github.com/SIGL-L3/TP_PROPELIZE_GROUPE_8
-ensuite cloner la branche Frontend dans un autre repertoire https://github.com/SIGL-L3/TP_PROPELIZE_GROUPE_8/PropelizeFrontend puis Lancer les deux serveux 
+ensuite cloner la branche Frontend dans un autre repertoire https://github.com/SIGL-L3/TP_PROPELIZE_GROUPE_8/frontend puis Lancer les deux serveux 
 ## 🛠️ Stack technique
 
 ### Frontend
